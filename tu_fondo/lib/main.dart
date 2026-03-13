@@ -1,36 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tu_fondo/config/selector_mode_provider.dart';
+import 'package:tu_fondo/config/theme_data.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SelectorModeProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final selectorMode = context.watch<SelectorModeProvider>();
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+      title: 'Investment App',
+
+      theme: ThemeData(useMaterial3: true, colorScheme: modeLight()),
+
+      darkTheme: ThemeData(useMaterial3: true, colorScheme: modeDark()),
+
+      themeMode: selectorMode.themeMode,
+
+      home: const MyHomePage(title: 'Investment Dashboard'),
+    );
+  }
+}
+
+class ButtonModeColor extends StatelessWidget {
+  const ButtonModeColor({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final selectorMode = context.watch<SelectorModeProvider>();
+    final  colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        border: Border.all(color: colorScheme.onSurface,width: 2),borderRadius: BorderRadius.circular(20),),
+      child: IconButton(
+        onPressed: selectorMode.selecModeColor,
+        icon: selectorMode.statusMode
+            ? Icon(color: Colors.white, Icons.sunny_snowing)
+            : Icon(color: Colors.black, Icons.nightlight_sharp),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -69,6 +90,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mode = context.read<SelectorModeProvider>();
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -104,6 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: .center,
           children: [
+            ButtonModeColor(),
             const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
@@ -113,7 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          _incrementCounter();
+          mode.selecModeColor();
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
