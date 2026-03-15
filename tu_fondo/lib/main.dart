@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       locale: const Locale('es', ''),
-      title: 'Investment App',
+      title: 'TU FONDO',
       themeMode: selectorMode.themeMode,
       theme: ThemeData(useMaterial3: true, colorScheme: modeLight()),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: modeDark()),

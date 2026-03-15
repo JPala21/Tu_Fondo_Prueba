@@ -12,7 +12,7 @@ final GoRouter router = GoRouter(
           child: Login(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return PageTransition(
-              type: .leftToRightPop,
+              type: .bottomToTop,
               child: child,
             ).buildTransitions(context, animation, secondaryAnimation, child);
           },
