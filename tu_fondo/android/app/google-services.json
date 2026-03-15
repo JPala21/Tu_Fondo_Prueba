@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "613330144242",
+    "project_id": "banco-test-91e94",
+    "storage_bucket": "banco-test-91e94.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613330144242:android:b0039419d33906d0ef396b",
+        "android_client_info": {
+          "package_name": "com.example.banco_test_new"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUNyg7ns5nLy9vyyIp-2XwOiZ3Hh6Hdo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613330144242:android:98ed6aade7b6fc00ef396b",
+        "android_client_info": {
+          "package_name": "com.example.tu_fondo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUNyg7ns5nLy9vyyIp-2XwOiZ3Hh6Hdo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
