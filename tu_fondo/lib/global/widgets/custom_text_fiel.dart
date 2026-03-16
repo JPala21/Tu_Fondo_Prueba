@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final IconButton? suffixIcon;
   final TextInputType textInputType;
   final String? Function(String?)? validator;
+  final Function(String)? onChanged;
 
   const CustomTextField({
     super.key,
@@ -18,6 +19,7 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.textInputType = TextInputType.text,
+    this.onChanged,
   });
 
   factory CustomTextField.all({
@@ -46,6 +48,24 @@ class CustomTextField extends StatelessWidget {
     validator: validator,
   );
 
+  factory CustomTextField.find({
+    required String label,
+    required TextEditingController controller,
+    required VoidCallback onToggle,
+    required Function(String)? onChanged
+  }) => CustomTextField(
+    controller: controller,
+    obscure: false,
+    prefixIcon: const Icon(Icons.find_in_page),
+    suffixIcon: IconButton(
+      icon: Icon(Icons.clear, color: Colors.red),
+      onPressed: onToggle,
+    ),
+    label: "Buscar ...",
+    onChanged: onChanged,
+    validator: null,
+  );
+
   factory CustomTextField.password({
     required String label,
     required TextEditingController controller,
@@ -65,7 +85,6 @@ class CustomTextField extends StatelessWidget {
   );
 
   @override
-  @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final isDark = colors.brightness == Brightness.dark;
@@ -74,6 +93,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: textInputType,
       controller: controller,
       obscureText: obscure,
+      onChanged: onChanged,
       style: TextStyle(color: colors.onSurface),
       decoration: InputDecoration(
         fillColor: isDark ? colors.surface.withAlpha(128) : Colors.white,
@@ -83,6 +103,7 @@ class CustomTextField extends StatelessWidget {
         prefixIcon: prefixIcon != null
             ? Icon(prefixIcon!.icon, color: colors.primary)
             : null,
+
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -94,10 +115,7 @@ class CustomTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
-            color: colors.primary,
-            width: 2,
-          ), 
+          borderSide: BorderSide(color: colors.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),

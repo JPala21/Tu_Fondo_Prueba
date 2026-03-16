@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:tu_fondo/modules/home/pages/home_page.dart';
 import 'package:tu_fondo/modules/login/pages/login.dart';
 import 'package:tu_fondo/modules/login/pages/user_registration.dart';
 
@@ -8,6 +9,21 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          child: InversionListView(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return PageTransition(
+              type: .bottomToTop,
+              child: child,
+            ).buildTransitions(context, animation, secondaryAnimation, child);
+          },
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/login',
       pageBuilder: (context, state) {
         return CustomTransitionPage(
           child: LoginView(),

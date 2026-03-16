@@ -1,4 +1,4 @@
-class Cliente {
+class User {
   final String cedula;
   final String nombre;
   final String apellido;
@@ -7,7 +7,7 @@ class Cliente {
   final String? password;
   final bool isSMS;
 
-  Cliente({
+  User({
     required this.cedula,
     required this.nombre,
     required this.apellido,
@@ -17,8 +17,8 @@ class Cliente {
     required this.isSMS,
   });
 
-  factory Cliente.fromMap(Map<String, dynamic> map) {
-    return Cliente(
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
       cedula: map['cedula']?.toString() ?? '',
       nombre: map['nombre']?.toString() ?? '',
       apellido: map['apellido']?.toString() ?? '',

@@ -9,7 +9,6 @@ import 'package:tu_fondo/global/widgets/custom_button.dart';
 import 'package:tu_fondo/global/widgets/custom_divider.dart';
 import 'package:tu_fondo/global/widgets/custom_text_fiel.dart';
 import 'package:tu_fondo/modules/login/controllers/register_provider.dart';
-import 'package:tu_fondo/modules/login/widgets/notification_selector.dart';
 
 class UserRegistrationView extends StatelessWidget {
   const UserRegistrationView({super.key});
@@ -76,7 +75,7 @@ class UserRegistrationView extends StatelessWidget {
                             "Completa los siguientes datos",
                             style: TextStyle(
                               fontSize: responsive.scale(14),
-                              color: colorScheme.onSurface.withAlpha(0180),
+                              color: colorScheme.onSurface.withAlpha(180),
                             ),
                           ),
 
@@ -125,13 +124,6 @@ class UserRegistrationView extends StatelessWidget {
                             ),
                             label: "Confirmar Contraseña",
                           ),
-
-                          NotificationSelector(
-                            isSms: provider.isSMS,
-                            onChanged: provider.selectorSMS,
-                          ),
-
-                          SizedBox(height: responsive.scale(6)),
 
                           CustomButton.primary(
                             text: "REGISTRARSE",

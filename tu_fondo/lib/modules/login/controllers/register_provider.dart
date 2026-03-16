@@ -15,7 +15,6 @@ class RegisterProvider extends ChangeNotifier {
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
-  bool isSMS = true;
 
   void togglePassword() {
     obscurePassword = !obscurePassword;
@@ -27,10 +26,7 @@ class RegisterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectorSMS(bool status) {
-    isSMS = status;
-    notifyListeners();
-  }
+
 
   Future<void> send(BuildContext context) async {
     if (!formKey.currentState!.validate()) return;
@@ -41,8 +37,8 @@ class RegisterProvider extends ChangeNotifier {
       "cedula": cedulaController.text.trim(),
       "email": emailController.text.trim(),
       "password": passwordController.text.trim(),
-      "rol": "cliente",
-      "isSMS": isSMS,
+      "rol": "User",
+      'saldo': '2500000'
     };
     final result = await AuthServices.registerUser(data);
     if(!context.mounted) return;

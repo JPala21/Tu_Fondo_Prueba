@@ -5,7 +5,7 @@ import 'package:tu_fondo/modules/login/models/user_model.dart';
 class AuthServices {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  static Future<List<Cliente>> getAllUserAccounts() async {
+  static Future<List<User>> getAllUserAccounts() async {
     try {
       CustomLoading.show();
       final snapshot = await firestore.collection('client_model').get();
@@ -14,7 +14,7 @@ class AuthServices {
         return [];
       }
 
-      return snapshot.docs.map((doc) => Cliente.fromMap(doc.data())).toList();
+      return snapshot.docs.map((doc) => User.fromMap(doc.data())).toList();
     } catch (e) {
       return [];
     } finally {
@@ -47,7 +47,7 @@ class AuthServices {
     }
   }
 
-  static Future<Cliente?> loginUser({
+  static Future<User?> loginUser({
     required String email,
     required String password,
   }) async {
@@ -70,7 +70,7 @@ class AuthServices {
         return null;
       }
 
-      return Cliente.fromMap(data);
+      return User.fromMap(data);
     } catch (e) {
       return null;
     } finally {
