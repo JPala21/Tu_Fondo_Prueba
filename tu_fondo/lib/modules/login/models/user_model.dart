@@ -1,11 +1,11 @@
 class User {
-  final String cedula;
-  final String nombre;
-  final String apellido;
-  final String rol;
-  final String? email;
-  final String? password;
-  final int? money;
+   String cedula;
+   String nombre;
+   String apellido;
+   String rol;
+   String? email;
+   String? password;
+   int? money;
 
   User({
     required this.cedula,
@@ -25,8 +25,20 @@ class User {
       rol: map['rol']?.toString() ?? '',
       email: map['email']?.toString(),
       password: map['password']?.toString(),
-      money: map['money']
+      money: map['money'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "cedula": cedula,
+      "nombre": nombre,
+      "apellido": apellido,
+      "rol": rol,
+      "email": email,
+      "password": password,
+      "money": money,
+    };
   }
 
   String get nombreCompleto => '$nombre $apellido';

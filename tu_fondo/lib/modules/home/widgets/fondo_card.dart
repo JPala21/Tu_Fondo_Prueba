@@ -8,6 +8,8 @@ class FondoCard extends StatelessWidget {
   final String nombreFondo;
   final int montoMinimo;
   final VoidCallback onInvertirPressed;
+  final Color buttonColor;
+  final String buttonText; // <-- agregar propiedad
 
   const FondoCard({
     super.key,
@@ -15,6 +17,8 @@ class FondoCard extends StatelessWidget {
     required this.nombreFondo,
     required this.montoMinimo,
     required this.onInvertirPressed,
+    required this.buttonColor,
+    required this.buttonText, // <-- recibir en constructor
   });
 
   @override
@@ -57,8 +61,9 @@ class FondoCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
                     height: imageHeight,
-                    color:isDark? colors.onError
-                        :colors.onSurface.withAlpha(10),
+                    color: isDark
+                        ? colors.onError
+                        : colors.onSurface.withAlpha(10),
                     child: Icon(
                       Icons.insert_chart_outlined,
                       color: colors.primary,
@@ -67,8 +72,9 @@ class FondoCard extends StatelessWidget {
                   ),
                   errorWidget: (context, url, error) => Container(
                     height: imageHeight,
-                    color:isDark? colors.onError
-                        :colors.onSurface.withAlpha(40),
+                    color: isDark
+                        ? colors.onError
+                        : colors.onSurface.withAlpha(40),
                     child: Icon(Icons.error_outline, color: colors.error),
                   ),
                 ),
@@ -106,7 +112,7 @@ class FondoCard extends StatelessWidget {
               ),
 
               CustomButton.primary(
-                text: 'Invertir',
+                text: buttonText, // <-- usar el texto dinámico
                 onPressed: onInvertirPressed,
                 width: double.infinity,
                 height: 25,

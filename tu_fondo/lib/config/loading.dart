@@ -19,7 +19,6 @@ class CustomLoading {
     EasyLoading.show(status: status ?? 'Cargando...');
   }
 
-  // Quita el loader
   static void dismiss() {
     EasyLoading.dismiss();
   }
@@ -29,7 +28,7 @@ class CustomLoading {
   }
 
   static void showError(String message) {
-    EasyLoading.showError(message);
+    EasyLoading.showError(message,duration: Duration(seconds: 4));
   }
 
   static void showInfo(String message) {

@@ -23,6 +23,22 @@ class CustomButton extends StatelessWidget {
     this.borderRadius = 14,
   });
 
+  factory CustomButton.dynamic({
+    required String text,
+    required VoidCallback onPressed,
+    required Color backgroundColor, 
+    double width = double.infinity,
+    double height = 55,
+    double fontSize = 16,
+  }) => CustomButton(
+    text: text,
+    onPressed: onPressed,
+    backgroundColor: backgroundColor,
+    width: width,
+    height: height,
+    fontSize: fontSize,
+  );
+
   factory CustomButton.primary({
     required String text,
     required VoidCallback onPressed,
