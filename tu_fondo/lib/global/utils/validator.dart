@@ -19,29 +19,21 @@ class Validator {
   }
 
   /// Valida contraseña mínima
-  static String? password(
+  static String? minLength(
     String? value, {
-    int minLength = 3,
+    int minSize = 3,
     String emptyMessage = "Ingrese su contraseña",
-    String lengthMessage = "Mínimo 3 caracteres",
+    String lengthMessage = "",
   }) {
+    String message = lengthMessage.isEmpty
+        ? "Mínimo $minSize caracteres"
+        : lengthMessage;
     if (value == null || value.isEmpty) {
       return emptyMessage;
     }
-    if (value.length < minLength) {
-      return lengthMessage;
+    if (value.length < minSize) {
+      return message;
     }
-    return null;
-  }
-
-  /// Valida que el texto alcance un tamaño mínimo
-  static String? minLength(
-    String? value,
-    int min, {
-    String message = "No cumple el mínimo requerido",
-  }) {
-    if (value == null || value.isEmpty) return message;
-    if (value.length < min) return message;
     return null;
   }
 

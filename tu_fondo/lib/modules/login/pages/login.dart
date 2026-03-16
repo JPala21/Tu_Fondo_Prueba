@@ -27,6 +27,10 @@ class _LoginViewState extends State<LoginView> {
       child: ResponsiveBuilder(
         builder: (context, responsive) => Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              onPressed: () => context.pop(),
+              icon: Icon(Icons.arrow_back_ios, color: colorScheme.error),
+            ),
             backgroundColor: Colors.transparent,
             actions: [
               ButtonModeColor(
@@ -86,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
                             controller: provider.passwordController,
                             obscure: provider.obscurePassword,
                             onToggle: provider.updateObscurePassword,
-                            validator: Validator.password,
+                            validator: Validator.minLength,
                             label: 'Contraseña',
                           ),
                           SizedBox(height: responsive.hp(0.05)),

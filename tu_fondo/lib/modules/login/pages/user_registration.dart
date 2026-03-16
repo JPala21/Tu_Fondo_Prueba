@@ -112,7 +112,7 @@ class UserRegistrationView extends StatelessWidget {
                             controller: provider.passwordController,
                             obscure: provider.obscurePassword,
                             onToggle: provider.togglePassword,
-                            validator: Validator.password,
+                            validator: Validator.minLength,
                             label: 'Contraseña',
                           ),
                           CustomTextField.password(
