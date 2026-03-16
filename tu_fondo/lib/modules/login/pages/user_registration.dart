@@ -8,22 +8,16 @@ import 'package:tu_fondo/global/widgets/custom_avatar.dart';
 import 'package:tu_fondo/global/widgets/custom_button.dart';
 import 'package:tu_fondo/global/widgets/custom_divider.dart';
 import 'package:tu_fondo/global/widgets/custom_text_fiel.dart';
-import 'package:tu_fondo/modules/login/controllers/login_provider.dart';
+import 'package:tu_fondo/modules/login/controllers/register_provider.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class UserRegistrationView extends StatelessWidget {
+  const UserRegistrationView({super.key});
 
-  @override
-  State<LoginView> createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-
     return ChangeNotifierProvider(
-      create: (_) => LoginProvider(),
+      create: (_) => RegisterProvider(),
       child: ResponsiveBuilder(
         builder: (context, responsive) => Scaffold(
           appBar: AppBar(
@@ -36,12 +30,11 @@ class _LoginViewState extends State<LoginView> {
             ],
           ),
           backgroundColor: colorScheme.onSurface,
-          body: Consumer<LoginProvider>(
+          body: Consumer<RegisterProvider>(
             builder: (context, provider, _) => Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(responsive.scale(12)),
                 child: Card(
-                  elevation: 10,
                   shadowColor: colorScheme.primary.withAlpha(77),
                   color: colorScheme.surface,
                   shape: RoundedRectangleBorder(
@@ -49,8 +42,8 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: responsive.scale(12),
-                      vertical: responsive.scale(10),
+                      horizontal: responsive.scale(16),
+                      vertical: responsive.scale(14),
                     ),
                     child: Form(
                       key: provider.formKey,
@@ -58,41 +51,80 @@ class _LoginViewState extends State<LoginView> {
                         spacing: 15,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          CustomAvatar.logo(responsive.scale(50)),
-
+                          CustomAvatar.icon(
+                            responsive.scale(30),
+                            Icon(Icons.person_add, size: responsive.scale(40),color: Colors.white60,),
+                          ),
                           Text(
-                            "Bienvenido",
+                            "Crear Cuenta",
                             style: TextStyle(
-                              fontSize: responsive.scale(25),
+                              fontSize: responsive.scale(26),
                               fontWeight: FontWeight.bold,
                               color: colorScheme.primary,
                             ),
                           ),
-
                           Text(
-                            "Inicia sesión para continuar",
+                            "Completa los siguientes datos",
                             style: TextStyle(
                               fontSize: responsive.scale(14),
                               color: colorScheme.onSurface.withAlpha(0180),
                             ),
                           ),
 
-                          CustomTextField.user(
-                            provider.emailController,
-                            Validator.email,
+                          CustomTextField.all(
+                            label: "Nombre",
+                            prefixIcon: Icon(Icons.person),
+                            controller: provider.nombreController,
+                            validator: Validator.letters,
                           ),
-                          SizedBox(height: responsive.hp(0.01)),
+
+                          CustomTextField.all(
+                            label: "Apellido",
+                            prefixIcon: Icon(Icons.person_outline),
+                            controller: provider.apellidoController,
+                            validator: Validator.letters,
+                          ),
+
+                          // CÉDULA
+                          CustomTextField.all(
+                            label: "Cédula",
+                            prefixIcon: Icon(Icons.badge),
+                            controller: provider.cedulaController,
+                            validator: Validator.numeric,
+                          ),
+
+                          CustomTextField.all(
+                            label: "Correo Electrónico",
+                            prefixIcon: Icon(Icons.email),
+                            controller: provider.emailController,
+                            validator: Validator.email,
+                          ),
+
+                          // CONTRASEÑA
                           CustomTextField.password(
                             controller: provider.passwordController,
                             obscure: provider.obscurePassword,
-                            onToggle: provider.updateObscurePassword,
+                            onToggle: provider.togglePassword,
                             validator: Validator.password,
                             label: 'Contraseña',
                           ),
-                          SizedBox(height: responsive.hp(0.05)),
+
+                          CustomTextField.password(
+                            controller: provider.confirmPasswordController,
+                            obscure: provider.obscureConfirmPassword,
+                            onToggle: provider.toggleConfirmPassword,
+                            validator: (value) => Validator.equal(
+                              value,
+                              provider.passwordController.text,
+                            ),
+                            label: "Confirmar Contraseña",
+                          ),
+
+                          SizedBox(height: responsive.scale(6)),
+
                           CustomButton.primary(
-                            text: "INICIAR SESIÓN",
-                            onPressed: () => provider.findUser(context),
+                            text: "REGISTRARSE",
+                            onPressed: () => provider.send(context),
                             width: responsive.wp(1),
                             height: responsive.hp(0.05),
                             fontSize: responsive.scale(14),
@@ -105,10 +137,8 @@ class _LoginViewState extends State<LoginView> {
                           ),
 
                           CustomButton.outlined(
-                            text: "CREAR CUENTA",
-                            onPressed: () {
-                              context.push('/user_registration');
-                            },
+                            text: "YA TENGO UNA CUENTA",
+                            onPressed: () => context.pop(context),
                             width: responsive.wp(1),
                             height: responsive.hp(0.05),
                             fontSize: responsive.scale(14),

@@ -19,21 +19,19 @@ class CustomAvatar extends StatelessWidget {
   factory CustomAvatar.logo(double iconSize) => CustomAvatar(
     icon: Image.asset('assets/transferencia-de-dinero.png', fit: BoxFit.cover),
     radius: iconSize + 15,
-    backgroundColor: const Color(0xFFE1F5FE),
     iconSize: iconSize + 5,
   );
 
-  factory CustomAvatar.icon(double iconSize, Icon icon) => CustomAvatar(
-    icon: icon,
-    radius: iconSize + 15,
-    backgroundColor: const Color(0xFFE1F5FE),
-    iconSize: iconSize + 5,
-  );
+  factory CustomAvatar.icon(double iconSize, Icon icon) =>
+      CustomAvatar(icon: icon, radius: iconSize + 15, iconSize: iconSize + 5);
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final isDark = colors.brightness == Brightness.dark;
+
     return CircleAvatar(
       radius: radius,
-      backgroundColor: backgroundColor,
+      backgroundColor: isDark? colors.onPrimary: colors.primary,
       child: icon,
     );
   }
