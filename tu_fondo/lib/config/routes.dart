@@ -9,7 +9,7 @@ final GoRouter router = GoRouter(
       path: '/',
       pageBuilder: (context, state) {
         return CustomTransitionPage(
-          child: Login(),
+          child: LoginView(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return PageTransition(
               type: .bottomToTop,

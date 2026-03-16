@@ -51,17 +51,15 @@ class ResponsiveBuilder<T> extends StatelessWidget {
   final Widget Function(
     BuildContext context,
     ResponsiveSign responsive,
-    T? data,
   )
   builder;
-  final T? data;
 
-  const ResponsiveBuilder({super.key, required this.builder, this.data});
+  const ResponsiveBuilder({super.key, required this.builder});
 
   @override
   Widget build(BuildContext context) {
     final responsive = ResponsiveSign(context);
-    final result = builder(context, responsive, data);
+    final result = builder(context, responsive);
     return result;
   }
 }

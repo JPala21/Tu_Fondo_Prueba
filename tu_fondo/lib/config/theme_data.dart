@@ -1,64 +1,29 @@
 import 'package:flutter/material.dart';
 
 ColorScheme modeLight() {
-  return ColorScheme(
+  return const ColorScheme(
     brightness: Brightness.light,
-    primary: AppColors.primaryLight,
+    primary: Color(0xFF0052CC), 
     onPrimary: Colors.white,
-    secondary: AppColors.secondaryLight,
+    secondary: Color(0xFF00875A), 
     onSecondary: Colors.white,
-    surface: AppColors.surfaceLight,
-    onSurface: AppColors.onSurfaceLight,
-    error: AppColors.errorLight,
+    surface: Color(0xFFF4F5F7),
+    onSurface: Color(0xFF172B4D),
+    error: Color(0xFFDE350B),
     onError: Colors.white,
   );
 }
 
 ColorScheme modeDark() {
-  return ColorScheme(
+  return const ColorScheme(
     brightness: Brightness.dark,
-    primary: AppColors.primaryDark,
-    onPrimary: Colors.black,
-    secondary: AppColors.secondaryDark,
+    primary: Color.fromARGB(255, 255, 255, 255),
+    onPrimary: Color(0xFF0747A6),
+    secondary: Color(0xFF36B37E), 
     onSecondary: Colors.black,
-    surface: AppColors.surfaceDark,
-    onSurface: AppColors.onSurfaceDark,
-    error: AppColors.errorDark,
-    onError: Colors.black,
+    surface: Color.fromARGB(255, 25, 47, 83),
+    onSurface: Color(0xFFEBECF0),
+    error: Color(0xFFFF5630),
+    onError: Colors.white,
   );
-}
-
-class AppColors {
-  // Primarios
-  static const Color primaryLight = Color(0xFFB8962E);
-  static const Color primaryDark = Color(0xFFD4AF37);
-
-  // Secundarios
-  static const Color secondaryLight = Color(0xFF00A152);
-  static const Color secondaryDark = Color(0xFF00C853);
-
-  // Neutros
-  static const Color backgroundLight = Color(0xFFF5F5F5);
-  static const Color backgroundDark = Color(0xFF161B22);
-  static const Color surfaceLight = Color(0xFFFFFFFF);
-  static const Color surfaceDark = Color(0xFF1C1F2A);
-  static const Color onSurfaceLight = Color(0xFF1B1F23);
-  static const Color onSurfaceDark = Color(0xFFE6EDF3);
-
-  // Errores
-  static const Color errorLight = Color(0xFFD32F2F);
-  static const Color errorDark = Color(0xFFFF5252);
-
-  // Paleta adicional
-  static const Color successLight = Color(0xFF4CAF50);
-  static const Color successDark = Color(0xFF81C784);
-
-  static const Color warningLight = Color(0xFFFFC107);
-  static const Color warningDark = Color(0xFFFFD54F);
-
-  static const Color infoLight = Color(0xFF2196F3);
-  static const Color infoDark = Color(0xFF64B5F6);
-
-  static const Color accentLight = Color(0xFF00BCD4);
-  static const Color accentDark = Color(0xFF26C6DA);
 }

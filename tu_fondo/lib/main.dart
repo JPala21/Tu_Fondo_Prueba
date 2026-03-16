@@ -8,9 +8,7 @@ import 'package:tu_fondo/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   runApp(
     MultiProvider(
       providers: [
@@ -26,7 +24,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectorMode = context.watch<SelectorModeProvider>();
-
     return MaterialApp.router(
       locale: const Locale('es', ''),
       title: 'TU FONDO',
@@ -34,6 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(useMaterial3: true, colorScheme: modeLight()),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: modeDark()),
       routerConfig: router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
