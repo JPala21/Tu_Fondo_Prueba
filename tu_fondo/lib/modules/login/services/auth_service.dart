@@ -46,14 +46,15 @@ class AuthServices {
       CustomLoading.dismiss();
     }
   }
-
-  static Future<User?> loginUser({
+static Future<User?> loginUser({
     required String email,
     required String password,
   }) async {
     try {
+      // 🔹 Mostrar loading
       CustomLoading.show('Ingresando...');
 
+      // 🔹 Buscar usuario por email
       final query = await firestore
           .collection('client_model')
           .where('email', isEqualTo: email.trim())
@@ -61,17 +62,20 @@ class AuthServices {
           .get();
 
       if (query.docs.isEmpty) {
+        // No existe usuario con ese email
         return null;
       }
 
       final data = query.docs.first.data();
 
-      if (data['password'] != password) {
-        return null;
+      // 🔹 Validar contraseña
+      if (data['password'] == null || data['password'] != password) {
+        return null; // Contraseña incorrecta o no existe
       }
 
-      return User.fromMap(data);
-    } catch (e) {
+      // 🔹 Retornar modelo de usuario
+      return User.fromMap({...data, 'id': query.docs.first.id});
+    } catch (e, stack) {
       return null;
     } finally {
       CustomLoading.dismiss();

@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class TransactionModel {
   final String id;
   final String userId;
   final String fundId;
   final String fundName;
-  final int amount;
   final String status; // 'active' or 'cancelled'
   final DateTime date;
 
@@ -12,7 +13,6 @@ class TransactionModel {
     required this.userId,
     required this.fundId,
     required this.fundName,
-    required this.amount,
     required this.status,
     required this.date,
   });
@@ -22,23 +22,30 @@ class TransactionModel {
       'userId': userId,
       'fundId': fundId,
       'fundName': fundName,
-      'amount': amount,
       'status': status,
       'date': date.toIso8601String(),
     };
   }
+factory TransactionModel.fromMap(Map<String, dynamic> map, String id) {
+    DateTime date = DateTime.now();
 
-  factory TransactionModel.fromMap(Map<String, dynamic> map, String id) {
+    if (map['date'] != null) {
+      final value = map['date'];
+      if (value is Timestamp) {
+        date = value.toDate(); // Firebase Timestamp → DateTime
+      // ignore: dead_code
+      } else if (value is String) {
+        date = DateTime.tryParse(value) ?? DateTime.now(); // fallback
+      }
+    }
+
     return TransactionModel(
       id: id,
       userId: map['userId'] ?? '',
       fundId: map['fundId'] ?? '',
       fundName: map['fundName'] ?? '',
-      amount: map['amount'] ?? 0,
       status: map['status'] ?? 'active',
-      date: map['date'] != null
-          ? DateTime.parse(map['date'])
-          : DateTime.now(),
+      date: date,
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tu_fondo/config/loading.dart';
 import 'package:tu_fondo/global/controller/session_provider.dart';
-import 'package:tu_fondo/modules/home/controllers/home_provider.dart';
 import 'package:tu_fondo/modules/login/services/auth_service.dart';
 
 class LoginProvider extends ChangeNotifier {

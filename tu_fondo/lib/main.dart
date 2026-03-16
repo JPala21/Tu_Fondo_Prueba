@@ -8,6 +8,7 @@ import 'package:tu_fondo/config/selector_mode_provider.dart';
 import 'package:tu_fondo/config/theme_data.dart';
 import 'package:tu_fondo/firebase_options.dart';
 import 'package:tu_fondo/global/controller/session_provider.dart';
+import 'package:tu_fondo/modules/home/controllers/home_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SelectorModeProvider()),
+        ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => SessionProvider()..loadSession())
       ],
       child: const MyApp(),

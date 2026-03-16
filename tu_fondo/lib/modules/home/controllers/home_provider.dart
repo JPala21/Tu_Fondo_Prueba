@@ -4,12 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:tu_fondo/config/loading.dart';
 import 'package:tu_fondo/global/controller/session_provider.dart';
 import 'package:tu_fondo/modules/home/models/fondo_model.dart';
+import 'package:tu_fondo/modules/home/models/transaction_model.dart';
 import 'package:tu_fondo/modules/home/services/fondo_service.dart';
 import 'package:tu_fondo/modules/home/services/transaction_service.dart';
 import 'package:tu_fondo/modules/login/models/user_model.dart';
+
 class HomeProvider extends ChangeNotifier {
   TextEditingController controllerFind = TextEditingController();
   List<FondoModel> list = [];
+  List<TransactionModel> historial = [];
 
   /// Guarda las inversiones activas localmente
   Map<String, bool> activeInvestments = {};
@@ -107,7 +110,56 @@ class HomeProvider extends ChangeNotifier {
       CustomLoading.dismiss();
     }
   }
+// En HomeProvider.dart
+  void clear() {
+    list = [];
+    historial = [];
+    activeInvestments = {};
+    currentUserId = null;
+    isInitialized = false;
+    controllerFind.clear();
+    notifyListeners();
+  }
+// Dentro de HomeProvider
+  Future<void> fetchUserTransactions() async {
+    if (currentUserId == null) return;
 
+    final snapshot = await FirebaseFirestore.instance
+        .collection('transaction_model')
+        .where('userId', isEqualTo: currentUserId)
+        .get();
+
+    historial = snapshot.docs.map((doc) {
+      final data = doc.data();
+
+      // Si no tiene 'date', usamos la fecha actual
+      final date = data['date'] != null
+          ? (data['date'] as Timestamp).toDate()
+          : DateTime.now();
+
+      // Si no tiene 'amount', ponemos 0
+      final amount = (data['amount'] ?? 0).toDouble();
+
+      // Construimos TransactionModel con los valores por defecto
+      return TransactionModel.fromMap({
+        ...data,
+        'date': date,
+        'amount': amount,
+        'status': data['status'] ?? 'active', // default active
+      }, doc.id);
+    }).toList();
+
+    // Ordenamos de la más reciente a la más antigua
+    historial.sort((a, b) => b.date.compareTo(a.date));
+
+    // Actualizamos el mapa de inversiones activas
+    activeInvestments = {};
+    for (var tx in historial) {
+      if (tx.status == 'active') activeInvestments[tx.fundId] = true;
+    }
+
+    notifyListeners();
+  }
   /// Cancelar inversión en un fondo
   Future<void> cancelInvestment({
     required BuildContext context,
@@ -147,5 +199,7 @@ class HomeProvider extends ChangeNotifier {
     } finally {
       CustomLoading.dismiss();
     }
+
+
   }
 }

@@ -57,7 +57,7 @@ class CustomButtonIcon extends StatelessWidget {
             if (!context.mounted) return;
             context.push('/profile');
           } else if (selected == 'logout') {
-            await sessionProvider.logout();
+            await sessionProvider.logout(context);
             if (!context.mounted) return;
             ScaffoldMessenger.of(
               context,
@@ -81,7 +81,7 @@ class CustomButtonIcon extends StatelessWidget {
       backgroundColor: Colors.green,
       onTap: () async {
         context.go('/');
-        await sessionProvider.logout();
+        await sessionProvider.logout(context);
         if (!context.mounted) return;
         ScaffoldMessenger.of(
           context,

@@ -38,7 +38,7 @@ class RegisterProvider extends ChangeNotifier {
       "email": emailController.text.trim(),
       "password": passwordController.text.trim(),
       "rol": "User",
-      'saldo': '2500000'
+      'money': '2500000'
     };
     final result = await AuthServices.registerUser(data);
     if(!context.mounted) return;

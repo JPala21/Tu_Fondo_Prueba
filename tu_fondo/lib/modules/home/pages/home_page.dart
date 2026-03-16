@@ -12,41 +12,24 @@ import 'package:tu_fondo/modules/home/widgets/fondo_card.dart';
 import 'package:tu_fondo/modules/home/widgets/notification_selector.dart';
 import 'package:tu_fondo/modules/login/models/user_model.dart';
 
-class InversionListView extends StatefulWidget {
+class InversionListView extends StatelessWidget {
   const InversionListView({super.key});
-
-  @override
-  State<InversionListView> createState() => _InversionListViewState();
-}
-
-class _InversionListViewState extends State<InversionListView> {
-  late HomeProvider _homeProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    // Obtenemos el usuario de forma segura
-    final user = context.read<SessionProvider>().user;
-    _homeProvider = HomeProvider();
-    _homeProvider.init(user?.cedula ?? '1001');
-  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final sessionProvider = context.watch<SessionProvider>();
+    final sessionProvider = context.read<SessionProvider>();
     final isLogged = sessionProvider.isLogged;
     final user = sessionProvider.user;
 
-    // 🔥 inicializar cuando el usuario exista
-    if (user != null && _homeProvider.currentUserId != user.cedula) {
-      _homeProvider.init(user.cedula);
-    }
-
-    return ChangeNotifierProvider<HomeProvider>.value(
-      value: _homeProvider,
+    return ChangeNotifierProvider(
+      create: (context) => HomeProvider()..filterFondos(''),
       child: ResponsiveBuilder(
         builder: (context, responsive) {
+          int crossAxisCount = responsive.isMobile
+              ? 2
+              : (responsive.isTablet ? 3 : 4);
+
           return Consumer<HomeProvider>(
             builder: (context, provider, child) => Scaffold(
               backgroundColor: colors.surface,
@@ -95,6 +78,7 @@ class _InversionListViewState extends State<InversionListView> {
                     ),
                   ),
 
+                  // Filtro de búsqueda
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: _SliverFilterHeaderDelegate(
@@ -120,6 +104,7 @@ class _InversionListViewState extends State<InversionListView> {
                     ),
                   ),
 
+                  // Grid de fondos
                   SliverPadding(
                     padding: EdgeInsets.all(responsive.wp(0.03)),
                     sliver: provider.list.isEmpty
@@ -134,10 +119,7 @@ class _InversionListViewState extends State<InversionListView> {
                               index,
                             ) {
                               final fondo = provider.list[index];
-
-                              final bool isInvested = provider.isInvested(
-                                fondo.id,
-                              );
+                              final isInvested = provider.isInvested(fondo.id);
 
                               return FondoCard(
                                 imageUrl: fondo.imageUrl,
@@ -174,12 +156,11 @@ class _InversionListViewState extends State<InversionListView> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisSpacing: 15,
-
                                   mainAxisSpacing: 15,
                                   childAspectRatio: responsive.isMobile
                                       ? 0.72
                                       : 0.85,
-                                  crossAxisCount: 2,
+                                  crossAxisCount: crossAxisCount,
                                 ),
                           ),
                   ),

@@ -1,45 +1,43 @@
 class User {
-   String cedula;
-   String nombre;
-   String apellido;
-   String rol;
-   String? email;
-   String? password;
-   int? money;
+  final String cedula;
+  final String nombre;
+  final String apellido;
+  final String email;
+  final String password;
+  final double money; // cambiar a double
+  final String rol;
 
   User({
     required this.cedula,
     required this.nombre,
     required this.apellido,
+    required this.email,
+    required this.password,
+    required this.money,
     required this.rol,
-    this.email,
-    this.password,
-    this.money,
   });
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      cedula: map['cedula']?.toString() ?? '',
-      nombre: map['nombre']?.toString() ?? '',
-      apellido: map['apellido']?.toString() ?? '',
-      rol: map['rol']?.toString() ?? '',
-      email: map['email']?.toString(),
-      password: map['password']?.toString(),
-      money: map['money'],
+      cedula: map['cedula'] ?? '',
+      nombre: map['nombre'] ?? '',
+      apellido: map['apellido'] ?? '',
+      email: map['email'] ?? '',
+      password: map['password'] ?? '',
+      money: double.tryParse(map['money'].toString()) ?? 0.0, // importante
+      rol: map['rol'] ?? 'User',
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "cedula": cedula,
-      "nombre": nombre,
-      "apellido": apellido,
-      "rol": rol,
-      "email": email,
-      "password": password,
-      "money": money,
+      'cedula': cedula,
+      'nombre': nombre,
+      'apellido': apellido,
+      'email': email,
+      'password': password,
+      'money': money,
+      'rol': rol,
     };
   }
-
-  String get nombreCompleto => '$nombre $apellido';
 }

@@ -1,30 +1,85 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:tu_fondo/main.dart';
+import 'package:tu_fondo/global/utils/validator.dart';
+import 'package:tu_fondo/global/widgets/custom_text_button.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  // --- GRUPO 1: Lógica de Validadores ---
+  group('Validator Suite', () {
+    test('required: detecta vacío y espacios', () {
+      expect(Validator.required(''), isNotNull);
+      expect(Validator.required('   '), isNotNull);
+      expect(Validator.required('Contenido'), isNull);
+    });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    test('email: formato inválido vs válido', () {
+      expect(Validator.email('invalido'), isNotNull);
+      expect(Validator.email('test@ejemplo'), isNotNull);
+      expect(Validator.email('test@ejemplo.com'), isNull);
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    test('numeric: solo permite números', () {
+      expect(Validator.numeric('123a'), isNotNull);
+      expect(Validator.numeric('abc'), isNotNull);
+      expect(Validator.numeric('456'), isNull);
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('letters: solo permite letras', () {
+      expect(Validator.letters('123'), isNotNull);
+      expect(Validator.letters('Juan'), isNull);
+      expect(Validator.letters('Juan Pérez'), isNull);
+    });
+
+    test('equal: contraseñas deben coincidir', () {
+      expect(Validator.equal('pass1', 'pass2'), isNotNull);
+      expect(Validator.equal('pass1', 'pass1'), isNull);
+    });
+  });
+
+  // --- GRUPO 2: Componentes (Widgets) ---
+  group('CustomTextButton Widget Tests', () {
+    testWidgets('Debe mostrar el texto correctamente', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CustomTextButton(text: 'Acción', onPressed: () {}),
+          ),
+        ),
+      );
+      expect(find.text('Acción'), findsOneWidget);
+    });
+
+    testWidgets('Debe disparar el callback al presionar', (tester) async {
+      bool tapped = false;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CustomTextButton(
+              text: 'Click',
+              onPressed: () => tapped = true,
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.byType(TextButton));
+      expect(tapped, isTrue);
+    });
+
+    testWidgets('Factory .recover debe aplicar estilo especial', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CustomTextButton.recover('Recuperar', 14.0, () {}),
+          ),
+        ),
+      );
+
+      final Text textWidget = tester.widget(find.byType(Text));
+      expect(textWidget.style?.decoration, TextDecoration.underline);
+      expect(textWidget.style?.color, Colors.cyan.shade700);
+    });
   });
 }

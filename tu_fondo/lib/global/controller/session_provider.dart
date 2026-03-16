@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tu_fondo/global/services/session_service.dart';
+import 'package:tu_fondo/modules/home/controllers/home_provider.dart';
 import 'package:tu_fondo/modules/login/models/user_model.dart';
 
 class SessionProvider extends ChangeNotifier {
@@ -19,9 +21,10 @@ class SessionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> logout() async {
+  Future<void> logout(BuildContext context) async {
     await SessionService.logout(); 
     user = null;
+    context.read<HomeProvider>().clear();
     notifyListeners();
   }
 
@@ -41,7 +44,7 @@ class SessionProvider extends ChangeNotifier {
         rol: user!.rol,
         email: user!.email,
         password: user!.password,
-        money: newMoney,
+        money: newMoney.toDouble(),
       );
 
       await SessionService.saveUser(user!); 
