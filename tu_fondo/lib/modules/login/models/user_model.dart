@@ -5,7 +5,7 @@ class User {
   final String rol;
   final String? email;
   final String? password;
-  final bool isSMS;
+  final int? money;
 
   User({
     required this.cedula,
@@ -14,7 +14,7 @@ class User {
     required this.rol,
     this.email,
     this.password,
-    required this.isSMS,
+    this.money,
   });
 
   factory User.fromMap(Map<String, dynamic> map) {
@@ -25,7 +25,7 @@ class User {
       rol: map['rol']?.toString() ?? '',
       email: map['email']?.toString(),
       password: map['password']?.toString(),
-      isSMS: map['isSMS'],
+      money: map['money']
     );
   }
 

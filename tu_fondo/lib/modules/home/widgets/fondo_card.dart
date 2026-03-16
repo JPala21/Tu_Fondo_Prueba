@@ -20,6 +20,7 @@ class FondoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final isDark = colors.brightness == Brightness.dark;
 
     return ResponsiveBuilder(
       builder: (context, responsive) {
@@ -56,7 +57,8 @@ class FondoCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
                     height: imageHeight,
-                    color: colors.onSurface.withAlpha(10),
+                    color:isDark? colors.onError
+                        :colors.onSurface.withAlpha(10),
                     child: Icon(
                       Icons.insert_chart_outlined,
                       color: colors.primary,
@@ -65,22 +67,25 @@ class FondoCard extends StatelessWidget {
                   ),
                   errorWidget: (context, url, error) => Container(
                     height: imageHeight,
-                    color: colors.error.withAlpha(10),
+                    color:isDark? colors.onError
+                        :colors.onSurface.withAlpha(40),
                     child: Icon(Icons.error_outline, color: colors.error),
                   ),
                 ),
               ),
 
-              Text(
-                nombreFondo,
-                style: TextStyle(
-                  fontSize: titleSize,
-                  fontWeight: FontWeight.bold,
-                  color: colors.onSurface,
-                  height: 1.1,
+              Expanded(
+                child: Text(
+                  nombreFondo,
+                  style: TextStyle(
+                    fontSize: titleSize,
+                    fontWeight: FontWeight.bold,
+                    color: colors.onSurface,
+                    height: 1.1,
+                  ),
+                  maxLines: null,
+                  overflow: TextOverflow.visible,
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
               ),
 
               Text(

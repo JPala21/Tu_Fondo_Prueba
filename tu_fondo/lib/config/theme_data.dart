@@ -25,5 +25,6 @@ ColorScheme modeDark() {
     onSurface: Color(0xFFEBECF0),
     error: Color(0xFFFF5630),
     onError: Colors.white,
+    
   );
 }

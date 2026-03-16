@@ -93,7 +93,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: textInputType,
       controller: controller,
       obscureText: obscure,
-      onChanged: onChanged,
+      onFieldSubmitted: onChanged,
       style: TextStyle(color: colors.onSurface),
       decoration: InputDecoration(
         fillColor: isDark ? colors.surface.withAlpha(128) : Colors.white,
