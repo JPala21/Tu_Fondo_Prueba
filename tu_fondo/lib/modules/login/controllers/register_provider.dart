@@ -12,6 +12,7 @@ class RegisterProvider extends ChangeNotifier {
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
+  bool isSMS = true;
 
   void togglePassword() {
     obscurePassword = !obscurePassword;
@@ -20,6 +21,11 @@ class RegisterProvider extends ChangeNotifier {
 
   void toggleConfirmPassword() {
     obscureConfirmPassword = !obscureConfirmPassword;
+    notifyListeners();
+  }
+
+  void selectorSMS(bool status) {
+    isSMS = status;
     notifyListeners();
   }
 
@@ -33,8 +39,8 @@ class RegisterProvider extends ChangeNotifier {
       "email": emailController.text.trim(),
       "password": passwordController.text.trim(),
       "rol": "cliente",
+      "isSMS":isSMS
     };
-
   }
 
   @override

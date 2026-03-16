@@ -9,6 +9,7 @@ import 'package:tu_fondo/global/widgets/custom_button.dart';
 import 'package:tu_fondo/global/widgets/custom_divider.dart';
 import 'package:tu_fondo/global/widgets/custom_text_fiel.dart';
 import 'package:tu_fondo/modules/login/controllers/register_provider.dart';
+import 'package:tu_fondo/modules/login/widgets/notification_selector.dart';
 
 class UserRegistrationView extends StatelessWidget {
   const UserRegistrationView({super.key});
@@ -22,6 +23,10 @@ class UserRegistrationView extends StatelessWidget {
         builder: (context, responsive) => Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
+            leading: IconButton(
+              onPressed: () => context.pop(),
+              icon: Icon(Icons.arrow_back_ios, color: colorScheme.error),
+            ),
             actions: [
               ButtonModeColor(
                 height: responsive.hp(0.3),
@@ -53,7 +58,11 @@ class UserRegistrationView extends StatelessWidget {
                         children: [
                           CustomAvatar.icon(
                             responsive.scale(30),
-                            Icon(Icons.person_add, size: responsive.scale(40),color: Colors.white60,),
+                            Icon(
+                              Icons.person_add,
+                              size: responsive.scale(40),
+                              color: Colors.white60,
+                            ),
                           ),
                           Text(
                             "Crear Cuenta",
@@ -99,8 +108,6 @@ class UserRegistrationView extends StatelessWidget {
                             controller: provider.emailController,
                             validator: Validator.email,
                           ),
-
-                          // CONTRASEÑA
                           CustomTextField.password(
                             controller: provider.passwordController,
                             obscure: provider.obscurePassword,
@@ -108,7 +115,6 @@ class UserRegistrationView extends StatelessWidget {
                             validator: Validator.password,
                             label: 'Contraseña',
                           ),
-
                           CustomTextField.password(
                             controller: provider.confirmPasswordController,
                             obscure: provider.obscureConfirmPassword,
@@ -118,6 +124,11 @@ class UserRegistrationView extends StatelessWidget {
                               provider.passwordController.text,
                             ),
                             label: "Confirmar Contraseña",
+                          ),
+
+                          NotificationSelector(
+                            isSms: provider.isSMS,
+                            onChanged: provider.selectorSMS,
                           ),
 
                           SizedBox(height: responsive.scale(6)),
@@ -135,7 +146,6 @@ class UserRegistrationView extends StatelessWidget {
                             horizontalPadding: responsive.scale(14),
                             textSize: responsive.scale(14),
                           ),
-
                           CustomButton.outlined(
                             text: "YA TENGO UNA CUENTA",
                             onPressed: () => context.pop(context),

@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+import 'package:tu_fondo/config/loading.dart';
 import 'package:tu_fondo/config/routes.dart';
 import 'package:tu_fondo/config/selector_mode_provider.dart';
 import 'package:tu_fondo/config/theme_data.dart';
@@ -9,6 +11,7 @@ import 'package:tu_fondo/firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  CustomLoading.init();
   runApp(
     MultiProvider(
       providers: [
@@ -18,6 +21,7 @@ Future<void> main() async {
     ),
   );
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -32,6 +36,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(useMaterial3: true, colorScheme: modeDark()),
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+      builder: EasyLoading.init(),
     );
   }
 }
